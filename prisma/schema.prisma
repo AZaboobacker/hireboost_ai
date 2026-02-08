@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Purchase {
+  id                 String   @id @default(cuid())
+  email              String
+  tier               String
+  stripe_session_id  String   @unique
+  stripe_customer_id String?
+  status             String
+  created_at         DateTime @default(now())
+  expires_at         DateTime?
+  remaining_credits  Int?
+}
+
+model Generation {
+  id               String   @id @default(cuid())
+  email_or_anon_id String
+  resume_text_hash String
+  job_text_hash    String
+  result_json      Json
+  created_at       DateTime @default(now())
+}
